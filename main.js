@@ -1,4 +1,5 @@
 const $btn = document.getElementById('btn-kick');
+const $btn_bonus = document.getElementById('btn-kick-bonus');
 
 const character = {
 	name: 'Pikachu',
@@ -22,6 +23,12 @@ $btn.addEventListener('click', function(){
 	changeHP(random(20), enemy);
 })
 
+$btn_bonus.addEventListener('click', function(){
+	console.log('PIKA PIKA! PIKA CHUUUU!');
+	changeHP(random(40), enemy);
+	$btn_bonus.style.visibility = 'hidden';
+})
+
 function init(){
 	console.log('Start Game!');
 	renderHP(character);
@@ -42,6 +49,10 @@ function renderProgressBar(person){
 }
 
 function changeHP (count, person){
+	if(person == character && person.damageHP < 25){
+		alert('Открыт бонусный удар!!! Используй его чтобы победить! ✨');
+		$btn_bonus.style.visibility = 'visible';
+	}
 	if(person.damageHP < count){
 		person.damageHP = 0;
 		alert(person.name+' проиграл бой!');

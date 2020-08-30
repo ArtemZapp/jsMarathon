@@ -1,37 +1,128 @@
-const firstRow = 'мама мыла раму';
-const secondRow = 'собака друг человека';
+const $btn = document.getElementById('btn-kick');
+const $btn_kick_bonus = document.getElementById('btn-kick-bonus');
+const $kick_bonus = document.getElementById('kick-bonus');
+const $textFight = document.getElementById('textFight');
+const $character = document.getElementsByClassName('pokemon character')[0].childNodes;
+const $enemy = document.getElementsByClassName('pokemon enemy')[0].childNodes;
+let isResizeble = false;
+let i;
 
-function getRow(...args) { //любое количество аргументов
-  let i, arrayStore = 0, arrayResult = [0];//чтобы не было undefined при первой пустой строке в Math.max
+let audio = new Audio();
+audio.preload = 'auto';
+audio.src = 'assets/wow.mp3';
 
-  args.forEach(function(item, index){ //подсчитываем кол-во символов 'а' для всех входных переменных-строк
-    for (i=0; i<=item.length; i++){
-     if(item.charAt(i)==='а'){
-       arrayResult[index]=++arrayStore;
-     }
-    }
-    arrayStore = 0;
-  }) 
-
-  return args[arrayResult.indexOf(Math.max(...arrayResult))]; // возвращаем строку с где больше 'а'
+function boxThis() {
+	$textFight.parentElement.style.opacity = '1';
+	$textFight.parentElement.style.padding = '20px';
+	audio.play();
+	setTimeout(function(){ $textFight.parentElement.style.display = 'none'; }, 3000);
 }
 
-/*WARNING! При одинаковом количестве символов 'а' выведется младшая по индексу строка*/
-console.log(getRow(firstRow, secondRow)); // мама мыла раму
+console.log($character[5]);
 
-
-//В ТЗ идёт логическая привязка к номерному порядку симлволов строки
-//Решаем относительно этого порядка
-function formattedPhone(phone) {
-  let strArr = phone.split('');
-  strArr.splice(2, 0, ' ');
-  strArr.splice(3, 0, '(');
-  strArr.splice(7, 0, ')');
-  strArr.splice(8, 0, ' ');
-  strArr.splice(12, 0, '-');
-  strArr.splice(15, 0, '-');
-  phone = strArr.join('');
-  return phone;
+const character = {
+	name: $character[5],
+	defaultHP: 100,
+	damageHP: 100,
+	elHP: document.getElementById('health-character'),
+	elProgressbar: document.getElementById('progressbar-character'),
 }
 
-console.log(formattedPhone('+71234567890')); // +7 (123) 456-78-90
+const enemy = {
+	name: $enemy,
+	defaultHP: 100,
+	damageHP: 100,
+	elHP: document.getElementById('health-enemy'),
+	elProgressbar: document.getElementById('progressbar-enemy'),
+}
+
+const box = {
+	name_bonus : function (){
+		alert('Открыт бонусный удар!!! Используй его чтобы победить! ✨');
+	},
+	name_win : function (){
+		$textFight.innerHTML = 'ТЫ выиграл, WOW</br>' + character.name + ' win!';
+		boxThis();
+	},
+	name_lost : function (){
+		$textFight.innerHTML = 'ШТОШ, ты проиграл</br>' + enemy.name + ' win!';
+		boxThis();
+	},
+}
+
+function fightWin(){
+	enemy.damageHP = 0;
+	box.name_win();
+	$btn.disabled = true;
+	$kick_bonus.classList.remove('control');
+	$kick_bonus.classList.add('none');
+}
+
+function fightLost(){
+	character.damageHP = 0;
+	box.name_lost();
+	$btn.disabled = true;
+	$kick_bonus.classList.remove('control');
+	$kick_bonus.classList.add('none');
+}
+
+$btn.addEventListener('click', function(){
+	changeHP(random(15), character);
+	changeHP(random(15), enemy);
+})
+
+$btn_kick_bonus.addEventListener('click', function(){
+	changeHP(random(20), enemy);
+	$kick_bonus.classList.remove('control');
+	$kick_bonus.classList.add('none');
+})
+
+function init(){
+	console.log('Start Game!');
+	renderHP(character);
+	renderHP(enemy);
+}
+
+function kickBonus(){
+	if(!isResizeble){
+		$kick_bonus.classList.remove('none');
+		$kick_bonus.classList.add('control');
+		box.name_bonus();
+		isResizeble = true;
+	}
+}
+
+function renderHP(person){
+	renderHPLife(person);
+	renderProgressBar(person);
+}
+
+function renderHPLife(person){
+	person.elHP.innerText = person.damageHP + '/' + person.defaultHP;
+}
+
+function renderProgressBar(person){
+	person.elProgressbar.style.width = person.damageHP + '%';
+}
+
+function changeHP (count, person){
+	if(person === character && person.damageHP < 25){
+		kickBonus();
+	}
+	if(person.damageHP < count && person === enemy){
+		fightWin();
+	}
+	else if(person.damageHP < count && person === character){
+		fightLost();
+	}
+	else{
+		person.damageHP -= count;
+	}
+	renderHP(person);
+}
+
+function random(num){
+	return Math.ceil(Math.random() * num);
+}
+
+init();

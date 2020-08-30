@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,11 +17,10 @@
              alt="Pokemon">
     </header>
     <div class="playground">
+
         <div class="pokemon character">
             <span class="lvl">Lv. 1</span>
-
-            <img src="http://sify4321.000webhostapp.com/pikachu.png" class="sprite">
-
+            <img src="assets/person/pikachu_icon.png" class="sprite">
             <div class="details">
                 <h2 class="name" id="name-character">
                     Pikachu
@@ -35,23 +34,21 @@
             </div>
         </div>
 
-        <div class="control">
+        <div class="control bounce-2">
             <button class="button" id="btn-kick">
                 Random damage
             </button>
         </div>
-        <div class="control">
-            <button class="button" id="btn-kick-bonus" style='visibility:hidden;'>
+
+        <div class="none bounce-2" id="kick-bonus">
+            <button class="button" id="btn-kick-bonus">
                 Bonus strike
             </button>
         </div>
 
-
         <div class="pokemon enemy">
             <span class="lvl">Lv. 1</span>
-
-            <img src="http://sify4321.000webhostapp.com/charmander.png" class="sprite">
-
+            <img src="assets/person/charmander_icon.png" class="sprite">
             <div class="details">
                 <h2 class="name" id="name-enemy">
                     Charmander
@@ -64,7 +61,11 @@
                 </div>
             </div>
         </div>
+
     </div>
+</div>
+<div class="alert" id="textBox">
+    <span id="textFight"></span>
 </div>
 <div class="catch_screen"></div>
 

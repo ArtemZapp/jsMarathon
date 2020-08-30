@@ -42,12 +42,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+
+.none {
+	width: 0px;
+	visibility: hidden;
+}
+
+.alert {
+	padding: 0px;
+	background-color: #5074ad;
+	color: white;
+	opacity: 0;
+	transition: opacity 0.6s;
+	margin-bottom: 15px;
+}
+
+.bounce-2 {
+    animation-name: bounce-2;
+    animation-timing-function: ease;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
 }
 
 .playground {
     max-width: 1024px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin: 30px auto;
 }
 
@@ -63,6 +85,7 @@ body {
     transform-origin: right center;
     pointer-events: none;
 }
+
 .arrow svg {
     position: absolute;
     width: 36px;
@@ -276,7 +299,6 @@ body {
     outline: none !important;
     cursor: pointer;
     font-size: 18px;
-
 }
 .button:after {
     content: "";
@@ -402,6 +424,11 @@ body {
         -webkit-transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
         transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
     }
+}
+@keyframes bounce-2 {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
 }
 @-webkit-keyframes float {
     0%,

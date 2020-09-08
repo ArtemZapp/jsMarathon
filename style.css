@@ -21,6 +21,84 @@ body {
     user-select: none;
 }
 
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+/* Modal Content */
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0} 
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+#modal-text{
+    
+}
+
+#pickachu_winning {
+    position: relative;
+    z-index: 0; 
+    width: 10px;
+    height: 10px;
+}
+
+canvas {
+    position: relative;
+    display: block;
+    height: max-content;
+    width: max-content;
+    visibility: hidden;
+}
+
 .catch_screen {
     width: 100vw;
     height: 100vh;
@@ -51,6 +129,8 @@ body {
 }
 
 .alert {
+    font-family: "Heebo", sans-serif;
+    font-size: 22px;
 	padding: 0px;
 	background-color: #5074ad;
 	color: white;
@@ -427,7 +507,7 @@ body {
 }
 @keyframes bounce-2 {
     0%   { transform: translateY(0); }
-    50%  { transform: translateY(-15px); }
+    50%  { transform: translateY(-5px); }
     100% { transform: translateY(0); }
 }
 @-webkit-keyframes float {

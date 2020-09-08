@@ -11,6 +11,9 @@
 <body>
 <div class="body">
     <header>
+        <div id="pickachu_winning">
+            <canvas id="canvas"></canvas>
+        </div>
         <img class="logo"
              title="Reset Game"
              src="./assets/Pokemon_logo.png"
@@ -33,7 +36,6 @@
                 </div>
             </div>
         </div>
-
         <div class="control bounce-2">
             <button class="button" id="btn-kick">
                 Random damage
@@ -64,11 +66,30 @@
 
     </div>
 </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-body">
+      <p id="modal-text">Some text in the Modal Body</p>
+    </div>
+    <div class="modal-footer">
+      <h3>OLOLO</h3>
+    </div>
+  </div>
+
+</div>
+
 <div class="alert" id="textBox">
     <span id="textFight"></span>
 </div>
+
 <div class="catch_screen"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="main.js"></script>
+<script src="canvas.js"></script>
 </body>
 </html>

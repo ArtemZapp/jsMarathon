@@ -6,9 +6,11 @@ const $character = document.getElementsByClassName('pokemon character')[0].child
 const $enemy = document.getElementsByClassName('pokemon enemy')[0].childNodes;
 const modal = document.getElementById("myModal");
 const modalText = document.getElementById("modal-text");
+const $btn_retry = document.getElementById('retryBtn');
+const $btn_next = document.getElementById('nextBtn');
 
 const character = {
-	name: $character[5].getElementsByTagName("h2")[0].innerText,
+	name: $character[7].getElementsByTagName("h2")[0].innerText,
 	defaultHP: 100,
 	damageHP: 100,
 	elHP: document.getElementById('health-character'),
@@ -46,7 +48,7 @@ function showBoxLose() {
 	setTimeout(function(){ $textFight.parentElement.style.display = 'none'; }, 3000);
 }
 
-//show the modal 
+//Show the modal 
 function showModal(text) {
   modalText.innerText = text;
   modal.style.display = "block";
@@ -62,30 +64,29 @@ window.onclick = function(event) {
 
 const box = {
 	name_bonus : function (){
-		showModal('Открыт бонусный удар!!! Используй его чтобы победить! ✨');
 		document.getElementById("canvas").style.visibility = "visible";
+		if(!isResizeble){
+			$kick_bonus.classList.remove('none');
+			$kick_bonus.classList.add('control');
+			isResizeble = true;
+			showModal('Открыт бонусный удар!!! Используй его чтобы победить! ✨');
+		}
 	},
 	name_win : function (){
 		$textFight.innerHTML = 'ТЫ выиграл, WOW</br>' + character.name + ' win!';
+		enemy.damageHP = 0;
+		disableButton();
 		showBoxWin();
 	},
 	name_lost : function (){
 		$textFight.innerHTML = 'ШТОШ, ты проиграл</br>' + enemy.name + ' win!';
+		character.damageHP = 0;
+		disableButton();
 		showBoxLose();
 	},
 }
 
-function fightWin(){
-	enemy.damageHP = 0;
-	box.name_win();
-	$btn.disabled = true;
-	$kick_bonus.classList.remove('control');
-	$kick_bonus.classList.add('none');
-}
-
-function fightLost(){
-	character.damageHP = 0;
-	box.name_lost();
+function disableButton(){
 	$btn.disabled = true;
 	$kick_bonus.classList.remove('control');
 	$kick_bonus.classList.add('none');
@@ -93,7 +94,9 @@ function fightLost(){
 
 $btn.addEventListener('click', function(){
 	changeHP(random(15), character);
-	changeHP(random(15), enemy);
+	if(character.damageHP != '0'){
+		changeHP(random(15), enemy);
+	}
 })
 
 $btn_kick_bonus.addEventListener('click', function(){
@@ -101,15 +104,6 @@ $btn_kick_bonus.addEventListener('click', function(){
 	$kick_bonus.classList.remove('control');
 	$kick_bonus.classList.add('none');
 })
-
-function kickBonus(){
-	if(!isResizeble){
-		$kick_bonus.classList.remove('none');
-		$kick_bonus.classList.add('control');
-		box.name_bonus();
-		isResizeble = true;
-	}
-}
 
 function renderHP(person){
 	renderHPLife(person);
@@ -125,19 +119,19 @@ function renderProgressBar(person){
 }
 
 function changeHP (count, person){
-	if(person === character && person.damageHP < 25){
-		kickBonus();
-	}
 	if(person.damageHP < count && person === enemy){
-		fightWin();
+		box.name_win();
 	}
 	else if(person.damageHP < count && person === character){
-		fightLost();
+		box.name_lost();
 	}
 	else{
 		person.damageHP -= count;
 	}
 	renderHP(person);
+	if(person === character && person.damageHP < 25){
+		box.name_bonus();
+	}
 }
 
 function random(num){

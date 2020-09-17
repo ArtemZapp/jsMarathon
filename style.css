@@ -51,7 +51,9 @@ body {
   animation-duration: 0.4s
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+    padding: 2px 16px;
+}
 
 .modal-footer {
   padding: 2px 16px;
@@ -509,6 +511,7 @@ canvas {
         transform: translateY(-57%) translateX(-50%);
     }
 }
+
 body,
 html {
     min-height: 100%;
@@ -532,7 +535,6 @@ h1 {
     position: relative;
     z-index: 1;
 }
-
 
 .wrap {
     display: flex;

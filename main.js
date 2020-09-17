@@ -4,10 +4,12 @@ const $kick_bonus = document.getElementById('kick-bonus');
 const $textFight = document.getElementById('textFight');
 const $character = document.getElementsByClassName('pokemon character')[0].childNodes;
 const $enemy = document.getElementsByClassName('pokemon enemy')[0].childNodes;
-const modal = document.getElementById("myModal");
+const modal = document.getElementById('myModal');
 const modalText = document.getElementById("modal-text");
 const $btn_retry = document.getElementById('retryBtn');
 const $btn_next = document.getElementById('nextBtn');
+const $heartLine = document.getElementsByClassName('heartLine')[0];
+const $heart = document.getElementsByClassName('heart');
 
 const character = {
 	name: $character[7].getElementsByTagName("h2")[0].innerText,
@@ -19,14 +21,19 @@ const character = {
 
 const enemy = {
 	name: $enemy[5].getElementsByTagName("h2")[0].innerText,
+	picture:  $enemy[3],
 	defaultHP: 100,
 	damageHP: 100,
 	elHP: document.getElementById('health-enemy'),
 	elProgressbar: document.getElementById('progressbar-enemy'),
 }
 
+let enemiesNames = ['abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat']
+let nextEnemy;
+
 let isResizeble = false;
 let i;
+let heartCount = 4;
 let fail_audio = new Audio();
 let win_audio = new Audio();
 win_audio.preload = 'auto';
@@ -58,7 +65,7 @@ function showModal(text) {
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    modal.style.display = 'none';
   }
 }
 
@@ -77,12 +84,16 @@ const box = {
 		enemy.damageHP = 0;
 		disableButton();
 		showBoxWin();
+		nextFight();
 	},
 	name_lost : function (){
 		$textFight.innerHTML = 'ШТОШ, ты проиграл</br>' + enemy.name + ' win!';
 		character.damageHP = 0;
 		disableButton();
 		showBoxLose();
+		if(heartCount<=0) removeHeart();
+		else tryAgain();
+		replay();
 	},
 }
 
@@ -138,10 +149,43 @@ function random(num){
 	return Math.ceil(Math.random() * num);
 }
 
+function nextFight(){
+	replay();
+	nextEnemy = enemiesNames[random(18)];
+	console.log(nextEnemy);
+	enemy.picture.src = 'assets/person/'+nextEnemy+'_icon.png';
+	enemy.name = nextEnemy;
+}
+
+function replay(){
+	character.damageHP = 100;
+	enemy.damageHP = 100;
+	renderHPLife(character);
+	renderHPLife(enemy);
+	renderProgressBar(character);
+	renderProgressBar(enemy);
+	isResizeble = false;
+	$btn.disabled = false;
+}
+
+function removeHeart(heartCount){
+	$heartLine.removeChild($heart[heartCount]);
+	heartCount--;
+}
+
+function tryAgain(){
+}
+
 function init(){
 	console.log('Start Game!');
 	renderHP(character);
 	renderHP(enemy);
+	// enemiesNames.forEach(element => {
+	// 	setTimeout(function(){
+	// 		enemy.picture.src = 'assets/person/'+element+'_icon.png';
+	// 		console.log('вий')}, 5000 * (element+1)
+	// 	);
+	// });
 }
 
 init();

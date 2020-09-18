@@ -9,10 +9,12 @@ const modalText = document.getElementById("modal-text");
 const $btn_retry = document.getElementById('retryBtn');
 const $btn_next = document.getElementById('nextBtn');
 const $heartLine = document.getElementsByClassName('heartLine')[0];
-const $heart = document.getElementsByClassName('heart');
+const $heart = document.createElement('img');
+$heart.src = 'assets/heart.png';
+$heart.className = 'heart';
 
 const character = {
-	name: $character[7].getElementsByTagName("h2")[0].innerText,
+	name: $character[7].getElementsByTagName("h2")[0],
 	defaultHP: 100,
 	damageHP: 100,
 	elHP: document.getElementById('health-character'),
@@ -20,7 +22,7 @@ const character = {
 }
 
 const enemy = {
-	name: $enemy[5].getElementsByTagName("h2")[0].innerText,
+	name: $enemy[5].getElementsByTagName("h2")[0],
 	picture:  $enemy[3],
 	defaultHP: 100,
 	damageHP: 100,
@@ -33,13 +35,13 @@ let nextEnemy;
 
 let isResizeble = false;
 let i;
-let heartCount = 4;
+let heartCount;
 let fail_audio = new Audio();
 let win_audio = new Audio();
 win_audio.preload = 'auto';
 win_audio.src = 'assets/wow.mp3';
 fail_audio.preload = 'auto';
-fail_audio.src = 'assets/wasted.mp3';
+fail_audio.src = 'assets/death.mp3';
 
 function showBoxWin() {
 	$textFight.parentElement.style.opacity = '1';
@@ -76,22 +78,22 @@ const box = {
 			$kick_bonus.classList.remove('none');
 			$kick_bonus.classList.add('control');
 			isResizeble = true;
-			showModal('Открыт бонусный удар!!! Используй его чтобы победить! ✨');
+			showModal('Bonus Kick was open!!! Use it for victory! ✨');
 		}
 	},
 	name_win : function (){
-		$textFight.innerHTML = 'ТЫ выиграл, WOW</br>' + character.name + ' win!';
+		$textFight.innerHTML = 'YOU WIN, WOW</br>' + character.name.innerText + ' win!';
 		enemy.damageHP = 0;
 		disableButton();
 		showBoxWin();
 		nextFight();
 	},
 	name_lost : function (){
-		$textFight.innerHTML = 'ШТОШ, ты проиграл</br>' + enemy.name + ' win!';
+		$textFight.innerHTML = 'You were defeated</br>' + enemy.name.innerText + ' win!';
 		character.damageHP = 0;
 		disableButton();
 		showBoxLose();
-		if(heartCount<=0) removeHeart();
+		if(heartCount>=0) removeHeart();
 		else tryAgain();
 		replay();
 	},
@@ -152,9 +154,8 @@ function random(num){
 function nextFight(){
 	replay();
 	nextEnemy = enemiesNames[random(18)];
-	console.log(nextEnemy);
 	enemy.picture.src = 'assets/person/'+nextEnemy+'_icon.png';
-	enemy.name = nextEnemy;
+	enemy.name.innerText = nextEnemy.charAt(0).toUpperCase() + nextEnemy.slice(1);
 }
 
 function replay(){
@@ -168,24 +169,28 @@ function replay(){
 	$btn.disabled = false;
 }
 
-function removeHeart(heartCount){
-	$heartLine.removeChild($heart[heartCount]);
+function removeHeart(){
+	$heartLine.removeChild($heartLine.firstChild);
 	heartCount--;
 }
 
 function tryAgain(){
+	setHeartLine();
+	//TODO
+}
+
+function setHeartLine(){
+	heartCount = 4;
+	for(i = 0; i<=4; i++){
+		$heartLine.appendChild($heart.cloneNode());
+	}
 }
 
 function init(){
 	console.log('Start Game!');
 	renderHP(character);
 	renderHP(enemy);
-	// enemiesNames.forEach(element => {
-	// 	setTimeout(function(){
-	// 		enemy.picture.src = 'assets/person/'+element+'_icon.png';
-	// 		console.log('вий')}, 5000 * (element+1)
-	// 	);
-	// });
+	tryAgain();
 }
 
 init();

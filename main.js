@@ -1,3 +1,4 @@
+const $body = document.body;
 const $btn = document.getElementById('btn-kick');
 const $btn_kick_bonus = document.getElementById('btn-kick-bonus');
 const $kick_bonus = document.getElementById('kick-bonus');
@@ -156,6 +157,7 @@ function nextFight(){
 	nextEnemy = enemiesNames[random(18)];
 	enemy.picture.src = 'assets/person/'+nextEnemy+'_icon.png';
 	enemy.name.innerText = nextEnemy.charAt(0).toUpperCase() + nextEnemy.slice(1);
+	document.body.style.background = 'url(./assets/milky_way.jpg) no-repeat center/100%';
 }
 
 function replay(){

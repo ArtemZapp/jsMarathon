@@ -31,7 +31,7 @@ const enemy = {
 	elProgressbar: document.getElementById('progressbar-enemy'),
 }
 
-let enemiesNames = ['abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat']
+let enemiesNames = ['charmander', 'abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat']
 let nextEnemy;
 
 let isResizeble = false;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>change picture</title>
+  </head>
+
+  <body>
+    <img id="img" src="assets/person/charmander_icon.png"/>
+  </body>
+
+  <script type = "text/javascript">
+    let x = 0;
+    let enemiesNames = ['abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat'];
+    var intervalCheck = setInterval(displayNextImage, 100);
+
+    function displayNextImage() {
+          document.getElementById("img").src = 'assets/person/' + enemiesNames[x] + '_icon.png';
+          console.log(enemiesNames.length-1);
+          x = (x === enemiesNames.length-1) ? 'a' : x + 1;
+          if (x == 'a'){
+            clearInterval(intervalCheck);
+            console.log('b');
+          }
+    }
+
+    function startTimer() {
+    }
+
+    startTimer();
+  </script>
+</html>

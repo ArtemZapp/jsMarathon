@@ -1,4 +1,4 @@
-const $body = document.body;
+const $body = document.querySelector('body');
 const $btn = document.getElementById('btn-kick');
 const $btn_kick_bonus = document.getElementById('btn-kick-bonus');
 const $kick_bonus = document.getElementById('kick-bonus');
@@ -31,7 +31,7 @@ const enemy = {
 	elProgressbar: document.getElementById('progressbar-enemy'),
 }
 
-let enemiesNames = ['charmander', 'abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat']
+let enemiesNames = ['abra', 'bellsprout', 'bulbasaur', 'caterpie', 'dratini', 'eevee', 'jigglypuff', 'mankey', 'meowth', 'mew', 'pidgey', 'psyduck', 'rattata', 'snorlax', 'squirtle', 'venonat', 'weedle', 'zubat']
 let nextEnemy;
 
 let isResizeble = false;
@@ -124,15 +124,15 @@ function renderHP(person){
 	renderProgressBar(person);
 }
 
-function renderHPLife(person){
+function renderHPLife(person) {
 	person.elHP.innerText = person.damageHP + '/' + person.defaultHP;
 }
 
-function renderProgressBar(person){
+function renderProgressBar(person) {
 	person.elProgressbar.style.width = person.damageHP + '%';
 }
 
-function changeHP (count, person){
+function changeHP (count, person) {
 	if(person.damageHP < count && person === enemy){
 		box.name_win();
 	}
@@ -148,19 +148,19 @@ function changeHP (count, person){
 	}
 }
 
-function random(num){
+function random(num) {
 	return Math.ceil(Math.random() * num);
 }
 
-function nextFight(){
+function nextFight() {
 	replay();
-	nextEnemy = enemiesNames[random(18)];
+	nextEnemy = enemiesNames[random(17)];
 	enemy.picture.src = 'assets/person/'+nextEnemy+'_icon.png';
 	enemy.name.innerText = nextEnemy.charAt(0).toUpperCase() + nextEnemy.slice(1);
 	document.body.style.background = 'url(./assets/milky_way.jpg) no-repeat center/100%';
 }
 
-function replay(){
+function replay() {
 	character.damageHP = 100;
 	enemy.damageHP = 100;
 	renderHPLife(character);
@@ -171,28 +171,49 @@ function replay(){
 	$btn.disabled = false;
 }
 
-function removeHeart(){
+function removeHeart() {
 	$heartLine.removeChild($heartLine.firstChild);
 	heartCount--;
 }
 
-function tryAgain(){
+function tryAgain() {
 	setHeartLine();
 	//TODO
 }
 
-function setHeartLine(){
+function setHeartLine() {
 	heartCount = 4;
 	for(i = 0; i<=4; i++){
 		$heartLine.appendChild($heart.cloneNode());
 	}
 }
 
+var intervalCheck = setInterval(enemiesCheck, 100);
+
+function onLoadHandler() {
+    console.log(enemiesNames[i]+' loaded');
+}
+
+function onErrorHandler() {
+    console.log(enemiesNames[i]+' failed');
+}
+
+function enemiesCheck() {
+	enemy.picture.src = 'assets/person/' + enemiesNames[i] + '_icon.png';
+	enemy.picture.onload = onLoadHandler;
+	enemy.picture.onerror = onErrorHandler;
+	enemy.name.innerText = enemiesNames[i].charAt(0).toUpperCase() + enemiesNames[i].slice(1);
+    i = (i === enemiesNames.length-1) ? 'a' : i + 1;
+    if (i == 'a'){
+       clearInterval(intervalCheck);
+    }
+}
+
 function init(){
 	console.log('Start Game!');
 	renderHP(character);
 	renderHP(enemy);
-	tryAgain();
+	i = 0;
 }
 
 init();
